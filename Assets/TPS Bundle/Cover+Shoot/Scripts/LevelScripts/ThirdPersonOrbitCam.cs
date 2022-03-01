@@ -62,68 +62,71 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
 	void Update()
 	{
-		// Get mouse movement to orbit the camera.
-		// Mouse:
-		angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
-		angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
-		// Joystick:
-		angleH += Mathf.Clamp(Input.GetAxis(XAxis), -1, 1) * 60 * horizontalAimingSpeed * Time.deltaTime;
-		angleV += Mathf.Clamp(Input.GetAxis(YAxis), -1, 1) * 60 * verticalAimingSpeed * Time.deltaTime;
+        if (!GameManager.instance.isPaused)
+        {
+			// Get mouse movement to orbit the camera.
+			// Mouse:
+			angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed;
+			angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed;
+			// Joystick:
+			angleH += Mathf.Clamp(Input.GetAxis(XAxis), -1, 1) * 60 * horizontalAimingSpeed * Time.deltaTime;
+			angleV += Mathf.Clamp(Input.GetAxis(YAxis), -1, 1) * 60 * verticalAimingSpeed * Time.deltaTime;
 
-		// Set vertical movement limit.
-		angleV = Mathf.Clamp(angleV, minVerticalAngle, targetMaxVerticalAngle);
+			// Set vertical movement limit.
+			angleV = Mathf.Clamp(angleV, minVerticalAngle, targetMaxVerticalAngle);
 
-		// Set vertical camera bounce.
-		angleV = Mathf.LerpAngle(angleV, angleV + recoilAngle, 10f * Time.deltaTime);
+			// Set vertical camera bounce.
+			angleV = Mathf.LerpAngle(angleV, angleV + recoilAngle, 10f * Time.deltaTime);
 
-		// Handle camera orientation lock.
-		if (firstDirection != Vector3.zero)
-		{
-			angleH -= deltaH;
-			UpdateLockAngle();
-			angleH += deltaH;
-		}
+			// Handle camera orientation lock.
+			if (firstDirection != Vector3.zero)
+			{
+				angleH -= deltaH;
+				UpdateLockAngle();
+				angleH += deltaH;
+			}
 
-		// Handle camera horizontal rotation limits if set.
-		if (forwardHorizontalRef != default(Vector3))
-		{
-			ClampHorizontal();
-		}
+			// Handle camera horizontal rotation limits if set.
+			if (forwardHorizontalRef != default(Vector3))
+			{
+				ClampHorizontal();
+			}
 
-		// Set camera orientation.
-		Quaternion camYRotation = Quaternion.Euler(0, angleH, 0);
-		Quaternion aimRotation = Quaternion.Euler(-angleV, angleH, 0);
-		cam.rotation = aimRotation;
+			// Set camera orientation.
+			Quaternion camYRotation = Quaternion.Euler(0, angleH, 0);
+			Quaternion aimRotation = Quaternion.Euler(-angleV, angleH, 0);
+			cam.rotation = aimRotation;
 
-		// Set FOV.
-		cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(cam.GetComponent<Camera>().fieldOfView, targetFOV, Time.deltaTime);
+			// Set FOV.
+			cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(cam.GetComponent<Camera>().fieldOfView, targetFOV, Time.deltaTime);
 
-		// Test for collision with the environment based on current camera position.
-		Vector3 baseTempPosition = player.position + camYRotation * targetPivotOffset;
-		Vector3 noCollisionOffset = targetCamOffset;
-		while (noCollisionOffset.magnitude >= 0.2f)
-		{
-			if (DoubleViewingPosCheck(baseTempPosition + aimRotation * noCollisionOffset))
-				break;
-			noCollisionOffset -= noCollisionOffset.normalized * 0.2f;
-		}
-		if (noCollisionOffset.magnitude < 0.2f)
-			noCollisionOffset = Vector3.zero;
+			// Test for collision with the environment based on current camera position.
+			Vector3 baseTempPosition = player.position + camYRotation * targetPivotOffset;
+			Vector3 noCollisionOffset = targetCamOffset;
+			while (noCollisionOffset.magnitude >= 0.2f)
+			{
+				if (DoubleViewingPosCheck(baseTempPosition + aimRotation * noCollisionOffset))
+					break;
+				noCollisionOffset -= noCollisionOffset.normalized * 0.2f;
+			}
+			if (noCollisionOffset.magnitude < 0.2f)
+				noCollisionOffset = Vector3.zero;
 
-		// No intermediate position for custom offsets, go to 1st person.
-		bool customOffsetCollision = isCustomOffset && noCollisionOffset.sqrMagnitude < targetCamOffset.sqrMagnitude;
+			// No intermediate position for custom offsets, go to 1st person.
+			bool customOffsetCollision = isCustomOffset && noCollisionOffset.sqrMagnitude < targetCamOffset.sqrMagnitude;
 
-		// Repostition the camera.
-		smoothPivotOffset = Vector3.Lerp(smoothPivotOffset, customOffsetCollision ? pivotOffset : targetPivotOffset, smooth * Time.deltaTime);
-		smoothCamOffset = Vector3.Lerp(smoothCamOffset, customOffsetCollision ? Vector3.zero : noCollisionOffset, smooth * Time.deltaTime);
+			// Repostition the camera.
+			smoothPivotOffset = Vector3.Lerp(smoothPivotOffset, customOffsetCollision ? pivotOffset : targetPivotOffset, smooth * Time.deltaTime);
+			smoothCamOffset = Vector3.Lerp(smoothCamOffset, customOffsetCollision ? Vector3.zero : noCollisionOffset, smooth * Time.deltaTime);
 
-		cam.position = player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
+			cam.position = player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
 
-		// Amortize Camera vertical bounce.
-		if (recoilAngle > 0)
-			recoilAngle -= 5 * Time.deltaTime;
-		else if (recoilAngle < 0)
-			recoilAngle += 5 * Time.deltaTime;
+			// Amortize Camera vertical bounce.
+			if (recoilAngle > 0)
+				recoilAngle -= 5 * Time.deltaTime;
+			else if (recoilAngle < 0)
+				recoilAngle += 5 * Time.deltaTime;
+        }
 	}
 
 	// Set/Unset horizontal rotation limit angles relative to custom direction.
