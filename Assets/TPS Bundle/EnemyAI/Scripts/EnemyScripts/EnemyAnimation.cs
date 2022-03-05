@@ -13,7 +13,7 @@ namespace EnemyAI
 		private StateController controller;                      // Reference to the NPC state controller (with the FSM).
 		private UnityEngine.AI.NavMeshAgent nav;                 // Reference to the NPC NavMesh agent.
 		private bool pendingAim;                                 // Boolean to determine if an aim animation activation is pending.
-		private Transform hips, spine;                           // Avatar bone transforms.
+		public Transform hips, spine;                           // Avatar bone transforms.
 		private Vector3 initialRootRotation;                     // Initial root bone local rotation.
 		private Vector3 initialHipsRotation;                     // Initial hips rotation related to the root bone.
 		private Vector3 initialSpineRotation;                    // Initial spine rotation related to the hips bone.

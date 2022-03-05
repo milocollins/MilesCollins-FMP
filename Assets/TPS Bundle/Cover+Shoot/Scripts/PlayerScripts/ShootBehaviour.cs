@@ -117,55 +117,59 @@ public class ShootBehaviour : GenericBehaviour
 	// Update is used to set features regardless the active behaviour.
 	private void Update()
 	{
-		// Handle shoot weapon action.
-		if (Input.GetAxisRaw(shootButton) != 0 && !isShooting && activeWeapon > 0 && burstShotCount == 0)
-		{
-			isShooting = true;
-			ShootWeapon(activeWeapon);
-		}
-		else if (isShooting && Input.GetAxisRaw(shootButton) == 0)
-		{
-			isShooting = false;
-		}
-		// Handle reload weapon action.
-		else if (Input.GetButtonUp(reloadButton) && activeWeapon > 0)
-		{
-			if (weapons[activeWeapon].StartReload())
+        if (!GameManager.instance.isPaused)
+        {
+			// Handle shoot weapon action.
+			if (Input.GetAxisRaw(shootButton) != 0 && !isShooting && activeWeapon > 0 && burstShotCount == 0)
 			{
-				AudioSource.PlayClipAtPoint(weapons[activeWeapon].reloadSound, gunMuzzle.position, 0.5f);
-				behaviourManager.GetAnim.SetBool(reloadBool, true);
+				isShooting = true;
+				ShootWeapon(activeWeapon);
 			}
-		}
-		// Handle drop weapon action.
-		else if (Input.GetButtonDown(dropButton) && activeWeapon > 0)
-		{
-			// End reload paramters, drop weapon and change to another one in inventory.
-			EndReloadWeapon();
-			int weaponToDrop = activeWeapon;
-			ChangeWeapon(activeWeapon, 0);
-			weapons[weaponToDrop].Drop();
-			weapons[weaponToDrop] = null;
-		}
-		// Handle change weapon action.
-		else
-		{
-			if ((Input.GetAxisRaw(changeButton) != 0 && !isChangingWeapon))
+			else if (isShooting && Input.GetAxisRaw(shootButton) == 0)
 			{
-				isChangingWeapon = true;
-				int nextWeapon = activeWeapon + 1;
-				ChangeWeapon(activeWeapon, (nextWeapon) % weapons.Count);
+				isShooting = false;
 			}
-			else if (Input.GetAxisRaw(changeButton) == 0)
+			// Handle reload weapon action.
+			else if (Input.GetButtonUp(reloadButton) && activeWeapon > 0)
 			{
-				isChangingWeapon = false;
+				if (weapons[activeWeapon].StartReload())
+				{
+					AudioSource.PlayClipAtPoint(weapons[activeWeapon].reloadSound, gunMuzzle.position, 0.5f);
+					behaviourManager.GetAnim.SetBool(reloadBool, true);
+				}
 			}
-		}
+			// Handle drop weapon action.
+			else if (Input.GetButtonDown(dropButton) && activeWeapon > 0)
+			{
+				// End reload paramters, drop weapon and change to another one in inventory.
+				EndReloadWeapon();
+				int weaponToDrop = activeWeapon;
+				ChangeWeapon(activeWeapon, 0);
+				weapons[weaponToDrop].Drop();
+				weapons[weaponToDrop] = null;
+			}
+			// Handle change weapon action.
+			else
+			{
+				if ((Input.GetAxisRaw(changeButton) != 0 && !isChangingWeapon))
+				{
+					isChangingWeapon = true;
+					int nextWeapon = activeWeapon + 1;
+					ChangeWeapon(activeWeapon, (nextWeapon) % weapons.Count);
+				}
+				else if (Input.GetAxisRaw(changeButton) == 0)
+				{
+					isChangingWeapon = false;
+				}
+			}
 
-		// Manage shot parameters after shooting action.
-		if (isShotAlive)
-			ShotDecay();
+			// Manage shot parameters after shooting action.
+			if (isShotAlive)
+				ShotDecay();
 
-		isAiming = behaviourManager.GetAnim.GetBool(aimBool);
+			isAiming = behaviourManager.GetAnim.GetBool(aimBool);
+
+        }
 	}
 
 	// Shoot the weapon.
