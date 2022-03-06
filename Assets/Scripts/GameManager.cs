@@ -63,4 +63,8 @@ public class GameManager : MonoBehaviour
         //Fade Out
         SceneNavigator.instance.LoadScene(sceneName);
     }
+    public static void QuitGame()
+    {
+        Application.Quit();
+    }
 }

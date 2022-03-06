@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject creditsScreen;
+    private bool creditsActive;
+    private void Awake()
     {
-        
+        if (creditsScreen != null)
+        {
+            creditsScreen.SetActive(false);
+        }
+        creditsActive = false;
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (creditsActive && Input.GetKeyDown(KeyCode.Escape))
+        {
+            creditsScreen.SetActive(false);
+        }
+    }
+    public void Play(string scene)
+    {
+        SceneNavigator.instance.LoadScene(scene);
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    public void ToggleCredits()
+    {
+        Debug.Log("Toggle");
+        if (creditsScreen != null)
+        {
+            creditsActive = !creditsActive;
+            creditsScreen.SetActive(creditsActive);
+        }
     }
 }
