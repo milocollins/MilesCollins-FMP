@@ -80,4 +80,8 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+    public static void DestroyObject(GameObject go)
+    {
+        Destroy(go);
+    }
 }

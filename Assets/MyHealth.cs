@@ -8,16 +8,20 @@ public class MyHealth : HealthManager
     public override void TakeDamage(Vector3 location, Vector3 direction, float damage, Collider bodyPart = null, GameObject origin = null)
     {
         health -= damage;
-        if (health < 0)
+        if (health < 0 && !dead)
         {
-                dead = true;
-                health = 0;
-                Debug.Log("Dead");
-            GameManager.instance.ChangeScene("Prototype");
+            Kill();
         }
         else
         {
             Debug.Log(health);
         }
+    }
+    public void Kill()
+    {
+        dead = true;
+        health = 0;
+        Debug.Log("Dead");
+        GameManager.instance.ChangeScene("Prototype");
     }
 }
