@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public GameObject fadeScreen;
 
     internal bool isPaused;
     private void Awake()
@@ -17,6 +18,10 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+        }
+        if (fadeScreen != null)
+        {
+            fadeScreen.SetActive(true);
         }
     }
     void Start()
@@ -60,9 +65,17 @@ public class GameManager : MonoBehaviour
     }
     public void ChangeScene(string sceneName)
     {
-        //Fade Out
+        //StartCoroutine(UIManager.instance.FadeToggle());
+        //StartCoroutine(WaitForFade(sceneName));
         SceneNavigator.instance.LoadScene(sceneName);
     }
+    //private IEnumerator WaitForFade(string sceneName)
+    //{
+    //    Debug.Log("Waiting");
+    //    yield return new WaitForSeconds(4f);
+    //    Debug.Log("Done");
+    //    SceneNavigator.instance.LoadScene(sceneName);
+    //}
     public static void QuitGame()
     {
         Application.Quit();
