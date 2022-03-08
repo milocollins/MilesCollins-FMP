@@ -14,6 +14,7 @@ public class Explosive : HealthManager
     {
         StartCoroutine(ExplosiveDamage());
         //Instantiate VFX
+        Instantiate(explosionVFX, transform.position, Quaternion.identity);
     }
     public IEnumerator ExplosiveDamage()
     {

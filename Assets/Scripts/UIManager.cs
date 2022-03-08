@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     private bool creditsActive;
     public GameObject fadeScreen;
     public GameObject healthBar;
+    public GameObject deathScreen;
 
     private void Awake()
     {
@@ -26,6 +27,10 @@ public class UIManager : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.SetActive(false);
+        }
+        if (deathScreen != null)
+        {
+            deathScreen.SetActive(false);
         }
         creditsActive = false;
     }
@@ -87,5 +92,20 @@ public class UIManager : MonoBehaviour
     public void UpdateHealth(float health)
     {
         healthBar.GetComponent<Slider>().value = health;
+    }
+    public void DeathScreen()
+    {
+        StartCoroutine(FadeIn());
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        //SET SCREEN ACTIVE
+    }
+    public void MainMenu()
+    {
+        SceneNavigator.instance.LoadScene("MainMenu");
+    }
+    public void Retry()
+    {
+        SceneNavigator.instance.LoadScene("Prototype");
     }
 }
