@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject creditsScreen;
     private bool creditsActive;
     public GameObject fadeScreen;
+    public GameObject healthBar;
 
     private void Awake()
     {
@@ -20,6 +22,10 @@ public class UIManager : MonoBehaviour
         if (fadeScreen != null)
         {
             fadeScreen.SetActive(true);
+        }
+        if (healthBar != null)
+        {
+            healthBar.SetActive(false);
         }
         creditsActive = false;
     }
@@ -74,5 +80,12 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(clip.length);
         fadeScreen.SetActive(false);
     }
-
+    public void ToggleHealthBar(bool b)
+    {
+        healthBar.SetActive(b);
+    }
+    public void UpdateHealth(float health)
+    {
+        healthBar.GetComponent<Slider>().value = health;
+    }
 }
