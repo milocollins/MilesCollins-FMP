@@ -28,6 +28,14 @@ public class BasicBehaviour : MonoBehaviour
 	private int groundedBool;                             // Animator variable related to whether or not the player is on the ground.
 	private Vector3 colExtents;                           // Collider extents for ground test. 
 
+	//Stamina
+	private float stamina;
+	public float maxStamina = 100f;
+	public float staminaDepletion;
+	public float staminaRecovery;
+	private bool staminaCooldown;
+	public float cooldownThreshold = 30f;
+
 	// Get current horizontal and vertical axes.
 	public float GetH { get { return h; } }
 	public float GetV { get { return v; } }
@@ -58,6 +66,10 @@ public class BasicBehaviour : MonoBehaviour
 		// Grounded verification variables.
 		groundedBool = Animator.StringToHash("Grounded");
 		colExtents = GetComponent<Collider>().bounds.extents;
+
+		//Stamina
+		stamina = maxStamina;
+		staminaCooldown = false;
 	}
 
 	void Update()
@@ -76,14 +88,36 @@ public class BasicBehaviour : MonoBehaviour
 		// Set the correct camera FOV for sprint mode.
 		if(IsSprinting())
 		{
+            if (!UIManager.instance.staminaBar.activeInHierarchy)
+            {
+				UIManager.instance.ToggleStaminaBar(true);
+            }
 			changedFOV = true;
 			camScript.SetFOV(sprintFOV);
+
+			//Stamina
+			stamina -= staminaDepletion * Time.deltaTime;
+			UIManager.instance.UpdateStamina(stamina);
 		}
 		else if(changedFOV)
 		{
 			camScript.ResetFOV();
 			changedFOV = false;
 		}
+        if (!IsSprinting() && stamina < maxStamina)
+        {
+			stamina += staminaRecovery * Time.deltaTime;
+			UIManager.instance.UpdateStamina(stamina);
+            if (stamina > maxStamina)
+            {
+				stamina = maxStamina;
+				UIManager.instance.ToggleStaminaBar(false);
+			}
+            else if (stamina > cooldownThreshold)
+            {
+				staminaCooldown = false;
+            }
+        }
 		// Set the grounded test on the Animator Controller.
 		anim.SetBool(groundedBool, IsGrounded());
 	}
@@ -279,6 +313,15 @@ public class BasicBehaviour : MonoBehaviour
 			if (!behaviour.AllowSprint())
 				return false;
 		}
+        if (stamina <= 0)
+        {
+			stamina = 0;
+			staminaCooldown = true;
+        }
+        if (staminaCooldown)
+        {
+			return false;
+        }
 		return true;
 	}
 

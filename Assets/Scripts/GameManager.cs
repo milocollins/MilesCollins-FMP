@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     internal bool isPaused;
     private void Awake()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         if (instance == null)
         {
             instance = this;

@@ -64,7 +64,14 @@ public class MyHealth : HealthManager
         dead = true;
         health = 0;
         Debug.Log("Dead");
-        GameManager.instance.ChangeScene("Prototype");
+        if (UIManager.instance.deathScreen == null)
+        {
+            GameManager.instance.ChangeScene("Prototype");
+        }
+        else
+        {
+            UIManager.instance.DeathScreen();
+        }
     }
     
 }

@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     private bool creditsActive;
     public GameObject fadeScreen;
     public GameObject healthBar;
+    public GameObject staminaBar;
     public GameObject deathScreen;
 
     private void Awake()
@@ -27,6 +28,10 @@ public class UIManager : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.SetActive(false);
+        }
+        if (staminaBar != null)
+        {
+            staminaBar.SetActive(false);
         }
         if (deathScreen != null)
         {
@@ -93,12 +98,20 @@ public class UIManager : MonoBehaviour
     {
         healthBar.GetComponent<Slider>().value = health;
     }
+    public void ToggleStaminaBar(bool b)
+    {
+        staminaBar.SetActive(b);
+    }
+    public void UpdateStamina(float stamina)
+    {
+        staminaBar.GetComponent<Slider>().value = stamina;
+    }
     public void DeathScreen()
     {
         StartCoroutine(FadeIn());
+        deathScreen.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
-        //SET SCREEN ACTIVE
     }
     public void MainMenu()
     {
