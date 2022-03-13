@@ -365,7 +365,8 @@ public class BasicBehaviour : MonoBehaviour
 	public bool IsGrounded()
 	{
 		Ray ray = new Ray(this.transform.position + Vector3.up * 2 * colExtents.x, Vector3.down);
-		return Physics.SphereCast(ray, colExtents.x, colExtents.x + 0.2f);
+		return Physics.Raycast(ray, colExtents.y +0.1f);
+		//return Physics.SphereCast(ray, colExtents.x, colExtents.x + 0.2f);
 	}
 }
 
