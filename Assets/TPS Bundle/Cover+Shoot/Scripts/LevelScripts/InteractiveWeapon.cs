@@ -82,9 +82,22 @@ public class InteractiveWeapon : MonoBehaviour
 		maxBullets = totalBullets;
 		pickupHUD.gameObject.SetActive(false);
 	}
+    private void Start()
+    {
+		rbody.isKinematic = true;
+		this.col.enabled = false;
 
-	// Create the sphere of interaction with player.
-	private void CreateInteractiveRadius(Vector3 center)
+		// Setup weapon and add in player inventory.
+		playerInventory.AddWeapon(this);
+		Destroy(interactiveRadius);
+		this.Toggle(true);
+		this.pickable = false;
+
+		// Change active weapon HUD.
+		TooglePickupHUD(false);
+	}
+    // Create the sphere of interaction with player.
+    private void CreateInteractiveRadius(Vector3 center)
 	{
 		interactiveRadius = this.gameObject.AddComponent<SphereCollider>();
 		interactiveRadius.center = center;
@@ -106,7 +119,7 @@ public class InteractiveWeapon : MonoBehaviour
 			Destroy(interactiveRadius);
 			this.Toggle(true);
 			this.pickable = false;
-
+	
 			// Change active weapon HUD.
 			TooglePickupHUD(false);
 		}

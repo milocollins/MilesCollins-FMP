@@ -42,15 +42,19 @@ public class GameManager : MonoBehaviour
 
     private void PauseToggle()
     {
-        isPaused = !isPaused;
-        MouseToggle(isPaused);
-        if (isPaused)
+        if (UIManager.instance.CanPause())
         {
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            Time.timeScale = 1f;
+            isPaused = !isPaused;
+            MouseToggle(isPaused);
+            if (isPaused)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+            UIManager.instance.TogglePause(isPaused);
         }
     }
     private void MouseToggle(bool b)

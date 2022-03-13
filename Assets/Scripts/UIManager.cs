@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     public GameObject healthBar;
     public GameObject staminaBar;
     public GameObject deathScreen;
+    public GameObject pauseScreen;
+    private bool pauseActive;
 
     private void Awake()
     {
@@ -37,10 +39,16 @@ public class UIManager : MonoBehaviour
         {
             deathScreen.SetActive(false);
         }
+        if (pauseScreen != null)
+        {
+            pauseScreen.SetActive(false);
+        }
         creditsActive = false;
+        Time.timeScale = 1f;
     }
     private void Start()
     {
+        Debug.Log("HIT");
         if (fadeScreen != null)
         {
             StartCoroutine(FadeIn());
@@ -48,10 +56,26 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
-        if (creditsActive && Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            creditsScreen.SetActive(false);
+            if (creditsActive)
+            {
+                creditsScreen.SetActive(false);
+            }
         }
+        
+    }
+    public bool CanPause()
+    {
+        if (pauseScreen != null)
+        {
+            return true;
+        }
+        return false;
+    }
+    public void TogglePause(bool b)
+    {
+        pauseScreen.SetActive(b);
     }
     public void Play(string scene)
     {
@@ -82,6 +106,7 @@ public class UIManager : MonoBehaviour
     }
     public IEnumerator FadeIn()
     {
+        Debug.Log("Fading");
         fadeScreen.SetActive(true);
         Animation anim = fadeScreen.GetComponent<Animation>();
         AnimationClip clip = anim.GetClip("FadeIn");

@@ -139,15 +139,15 @@ public class ShootBehaviour : GenericBehaviour
 				}
 			}
 			// Handle drop weapon action.
-			else if (Input.GetButtonDown(dropButton) && activeWeapon > 0)
-			{
-				// End reload paramters, drop weapon and change to another one in inventory.
-				EndReloadWeapon();
-				int weaponToDrop = activeWeapon;
-				ChangeWeapon(activeWeapon, 0);
-				weapons[weaponToDrop].Drop();
-				weapons[weaponToDrop] = null;
-			}
+			//else if (Input.GetButtonDown(dropButton) && activeWeapon > 0)
+			//{
+			//	// End reload paramters, drop weapon and change to another one in inventory.
+			//	EndReloadWeapon();
+			//	int weaponToDrop = activeWeapon;
+			//	ChangeWeapon(activeWeapon, 0);
+			//	weapons[weaponToDrop].Drop();
+			//	weapons[weaponToDrop] = null;
+			//}
 			// Handle change weapon action.
 			else
 			{
@@ -388,7 +388,7 @@ public class ShootBehaviour : GenericBehaviour
 			// Different weapon type, grab the new one and drop the weapon in inventory.
 			else
 			{
-				this.weapons[slotMap[newWeapon.type]].Drop();
+				//this.weapons[slotMap[newWeapon.type]].Drop();
 			}
 		}
 
