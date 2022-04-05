@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     public GameObject staminaBar;
     public GameObject deathScreen;
     public GameObject pauseScreen;
+    public GameObject settings;
+    public GameObject controls;
     private bool pauseActive;
 
     private void Awake()
@@ -53,6 +55,7 @@ public class UIManager : MonoBehaviour
         {
             StartCoroutine(FadeIn());
         }
+        ToggleControls();
     }
     private void Update()
     {
@@ -63,7 +66,6 @@ public class UIManager : MonoBehaviour
                 creditsScreen.SetActive(false);
             }
         }
-        
     }
     public bool CanPause()
     {
@@ -76,6 +78,18 @@ public class UIManager : MonoBehaviour
     public void TogglePause(bool b)
     {
         pauseScreen.SetActive(b);
+        if (b)
+        {
+            //pauseScreen.transform.Find("Controls").GetComponent<Button>().Select();
+            ToggleControls();
+            Transform t = pauseScreen.transform.Find("Settings Panel");
+            t.Find("Master Volume").GetComponent<Slider>().value = AudioManager.instance.GetVolume("MasterVolume");
+            t.Find("Music Volume").GetComponent<Slider>().value = AudioManager.instance.GetVolume("MusicVolume");
+            t.Find("UI Volume").GetComponent<Slider>().value = AudioManager.instance.GetVolume("UIVolume");
+            t.Find("SFX Volume").GetComponent<Slider>().value = AudioManager.instance.GetVolume("SFXVolume");
+            t.Find("Horizontal Sensitivity").GetComponent<Slider>().value = Camera.main.GetComponent<ThirdPersonOrbitCam>().horizontalAimingSpeed;
+            t.Find("Vertical Sensitivity").GetComponent<Slider>().value = Camera.main.GetComponent<ThirdPersonOrbitCam>().verticalAimingSpeed;
+        }
     }
     public void Play(string scene)
     {
@@ -144,6 +158,44 @@ public class UIManager : MonoBehaviour
     }
     public void Retry()
     {
-        SceneNavigator.instance.LoadScene("Prototype");
+        SceneNavigator.instance.LoadScene(SceneNavigator.instance.GetCurrentScene());
+    }
+    public void ToggleSettings()
+    {
+        settings.SetActive(true);
+        pauseScreen.transform.Find("Settings").GetComponent<Image>().color = Color.red;
+        controls.SetActive(false);
+        pauseScreen.transform.Find("Controls").GetComponent<Image>().color = Color.white;
+    }
+    public void ToggleControls()
+    {
+        controls.SetActive(true);
+        pauseScreen.transform.Find("Controls").GetComponent<Image>().color = Color.red;
+        settings.SetActive(false);
+        pauseScreen.transform.Find("Settings").GetComponent<Image>().color = Color.white;
+    }
+    public void UpdateMusicVolume(float f)
+    {
+        AudioManager.instance.SetVolume(f, "MusicVolume");
+    }
+    public void UpdateMasterVolume(float f)
+    {
+        AudioManager.instance.SetVolume(f, "MasterVolume");
+    }
+    public void UpdateUIVolume(float f)
+    {
+        AudioManager.instance.SetVolume(f, "UIVolume");
+    }
+    public void UpdateSFXVolume(float f)
+    {
+        AudioManager.instance.SetVolume(f,"SFXVolume");
+    }
+    public void SetHorizontalSensitivity(float f)
+    {
+        Camera.main.transform.GetComponent<ThirdPersonOrbitCam>().horizontalAimingSpeed = f;
+    }
+    public void SetVerticalSensitivity(float f)
+    {
+        Camera.main.transform.GetComponent<ThirdPersonOrbitCam>().verticalAimingSpeed = f;
     }
 }
