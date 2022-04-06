@@ -8,6 +8,15 @@ public class SFXManager : MonoBehaviour
     public static SFXManager instance;
 
     public GameObject sfxPrefab;
+    
+    public AudioClip clickSFX;
+    public AudioClip musicTest;
+    public AudioClip sfxTest;
+
+    public GameObject musicTestObj;
+    public GameObject sfxTestObj;
+    public GameObject uiTestObj;
+    public GameObject masterTestObj;
 
     private void Awake()
     {
@@ -54,6 +63,73 @@ public class SFXManager : MonoBehaviour
         AS.outputAudioMixerGroup = amg;
         AS.Play();
         yield return new WaitForSeconds(ac.length);
+        Destroy(GO);
+    }
+    public void PlayOneShot(AudioClip ac, AudioMixerGroup amg, float time)
+    {
+        StartCoroutine(OneShot(ac, amg, time));
+    }
+    private IEnumerator OneShot(AudioClip ac, AudioMixerGroup amg, float time)
+    {
+        GameObject GO = Instantiate(sfxPrefab);
+        AudioSource AS = GO.transform.GetComponent<AudioSource>();
+        AS.clip = ac;
+        AS.outputAudioMixerGroup = amg;
+        AS.Play();
+        yield return new WaitForSeconds(time);
+        Destroy(GO);
+    }
+    public void TestAMG(AudioMixerGroup amg)
+    {
+        if (amg == AudioManager.instance.Master)
+        {
+            StartCoroutine(OneShotTest(clickSFX, amg, clickSFX.length));
+        }
+        else if (amg == AudioManager.instance.Music && musicTestObj == null)
+        {
+            StartCoroutine(OneShotTest(musicTest, amg, 1.5f));
+        }
+        else if (amg == AudioManager.instance.UI)
+        {
+            StartCoroutine(OneShotTest(clickSFX, amg, clickSFX.length));
+        }
+        else if (amg == AudioManager.instance.SFX )
+        {
+            StartCoroutine(OneShotTest(sfxTest, amg, sfxTest.length));
+        }
+    }
+    private IEnumerator OneShotTest(AudioClip ac, AudioMixerGroup amg, float time)
+    {
+        GameObject GO = Instantiate(sfxPrefab);
+        
+        if (amg == AudioManager.instance.Music)
+        {
+            musicTestObj = GO;
+        }
+
+        AudioSource AS = GO.transform.GetComponent<AudioSource>();
+        AS.clip = ac;
+        AS.outputAudioMixerGroup = amg;
+        AS.Play();
+        Debug.Log(time);
+        yield return new WaitForSeconds(time);
+        Debug.Log("Hit Time");
+        if (amg == AudioManager.instance.Master)
+        {
+            masterTestObj = null;
+        }
+        else if (amg == AudioManager.instance.Music)
+        {
+            musicTestObj = null;
+        }
+        else if (amg == AudioManager.instance.UI)
+        {
+            uiTestObj = null;
+        }
+        else if (amg == AudioManager.instance.SFX)
+        {
+            sfxTestObj = null;
+        }
         Destroy(GO);
     }
 }

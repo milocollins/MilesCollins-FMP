@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     public AudioMixerGroup SFX;
     public AudioMixerGroup Music;
     public AudioMixerGroup UI;
+    public AudioMixerGroup Master;
     public float masterVolume = 0f;
     private string[] amgVolumes = { "MasterVolume", "SFXVolume", "MusicVolume", "UIVolume" };
 

@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
     public GameObject pauseScreen;
     public GameObject settings;
     public GameObject controls;
+    public GameObject musicTestObj;
     private bool pauseActive;
 
     private void Awake()
@@ -93,15 +94,18 @@ public class UIManager : MonoBehaviour
     }
     public void Play(string scene)
     {
+        UIClick();
         StartCoroutine(FadeOut("Prototype"));
     }
     public void QuitGame()
     {
+        UIClick();
         Application.Quit();
     }
     public void ToggleCredits()
     {
         Debug.Log("Toggle");
+        UIClick();
         if (creditsScreen != null)
         {
             creditsActive = !creditsActive;
@@ -154,14 +158,17 @@ public class UIManager : MonoBehaviour
     }
     public void MainMenu()
     {
+        UIClick();
         SceneNavigator.instance.LoadScene("MainMenu");
     }
     public void Retry()
     {
+        UIClick();
         SceneNavigator.instance.LoadScene(SceneNavigator.instance.GetCurrentScene());
     }
     public void ToggleSettings()
     {
+        UIClick();
         settings.SetActive(true);
         pauseScreen.transform.Find("Settings").GetComponent<Image>().color = Color.red;
         controls.SetActive(false);
@@ -169,6 +176,7 @@ public class UIManager : MonoBehaviour
     }
     public void ToggleControls()
     {
+        UIClick();
         controls.SetActive(true);
         pauseScreen.transform.Find("Controls").GetComponent<Image>().color = Color.red;
         settings.SetActive(false);
@@ -177,25 +185,35 @@ public class UIManager : MonoBehaviour
     public void UpdateMusicVolume(float f)
     {
         AudioManager.instance.SetVolume(f, "MusicVolume");
+        SFXManager.instance.TestAMG(AudioManager.instance.Music);
     }
     public void UpdateMasterVolume(float f)
     {
         AudioManager.instance.SetVolume(f, "MasterVolume");
+        SFXManager.instance.TestAMG(AudioManager.instance.Master);
     }
     public void UpdateUIVolume(float f)
     {
         AudioManager.instance.SetVolume(f, "UIVolume");
+        SFXManager.instance.TestAMG(AudioManager.instance.UI);
     }
     public void UpdateSFXVolume(float f)
     {
         AudioManager.instance.SetVolume(f,"SFXVolume");
+        SFXManager.instance.TestAMG(AudioManager.instance.SFX);
     }
     public void SetHorizontalSensitivity(float f)
     {
+        UIClick();
         Camera.main.transform.GetComponent<ThirdPersonOrbitCam>().horizontalAimingSpeed = f;
     }
     public void SetVerticalSensitivity(float f)
     {
+        UIClick();
         Camera.main.transform.GetComponent<ThirdPersonOrbitCam>().verticalAimingSpeed = f;
+    }
+    public void UIClick()
+    {
+        SFXManager.instance.PlayOneShot(SFXManager.instance.clickSFX, AudioManager.instance.UI);
     }
 }
