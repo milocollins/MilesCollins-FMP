@@ -56,7 +56,10 @@ public class UIManager : MonoBehaviour
         {
             StartCoroutine(FadeIn());
         }
-        ToggleControls();
+        if (SceneNavigator.instance.GetCurrentScene() != "MainMenu")
+        {
+            ToggleControls();
+        }
     }
     private void Update()
     {
