@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
         if (UIManager.instance.CanPause())
         {
             isPaused = !isPaused;
+            SFXManager.instance.LoopMusic(true, false, false);
             MouseToggle(isPaused);
             if (isPaused)
             {

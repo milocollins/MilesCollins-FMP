@@ -17,10 +17,19 @@ public class AudioManager : MonoBehaviour
     public AudioMixerGroup Master;
     public float masterVolume = 0f;
     private string[] amgVolumes = { "MasterVolume", "SFXVolume", "MusicVolume", "UIVolume" };
+    
+    public AudioClip[] musicList;
+    public GameObject musicLoop;
+    public GameObject pauseMusic;
+
 
     private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
+        SFXManager.instance.LoopMusic(false, false, false);
     }
     public static void TransitionToSnapshot(AudioMixerSnapshot ams, float t)
     {
@@ -51,5 +60,26 @@ public class AudioManager : MonoBehaviour
             currentVolume += 80;
         }
         return currentVolume;
+    }
+    public void SetMusicLoop(GameObject GO)
+    {
+        if (musicLoop!=null)
+        {
+            Destroy(musicLoop);
+        }
+        musicLoop = GO;
+    }
+    public void SetPauseMusic(GameObject GO, bool b)
+    {
+        if (b)
+        {
+            musicLoop.GetComponent<AudioSource>().Pause();
+            pauseMusic = GO;
+        }
+        else
+        {
+            Destroy(pauseMusic);
+            musicLoop.GetComponent<AudioSource>().Play();
+        }
     }
 }
