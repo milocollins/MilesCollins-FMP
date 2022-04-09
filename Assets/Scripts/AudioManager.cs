@@ -74,6 +74,7 @@ public class AudioManager : MonoBehaviour
         if (b)
         {
             musicLoop.GetComponent<AudioSource>().Pause();
+            Debug.Log(musicLoop.GetComponent<AudioSource>().isPlaying);
             pauseMusic = GO;
         }
         else
