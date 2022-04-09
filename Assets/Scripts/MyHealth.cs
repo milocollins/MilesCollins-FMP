@@ -73,5 +73,20 @@ public class MyHealth : HealthManager
             UIManager.instance.DeathScreen();
         }
     }
-    
+    public void AddHealth()
+    {
+        if (health < maxHealth)
+        {
+            if (health + 10 >= maxHealth)
+            {
+                health = maxHealth;
+                UIManager.instance.ToggleHealthBar(false);
+            }
+            else
+            {
+                health += 10;
+            }
+            UIManager.instance.UpdateHealth(health);
+        }
+    }
 }

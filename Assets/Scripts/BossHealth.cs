@@ -106,6 +106,7 @@ public class BossHealth : HealthManager
 		Destroy(weapon.gameObject);
 		Destroy(hud.gameObject);
 		dead = true;
+		UIManager.instance.WinScreen();
 	}
 
 	// Update health bar HUD to current NPC health.

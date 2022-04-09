@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject staminaBar;
     public GameObject deathScreen;
     public GameObject pauseScreen;
+    public GameObject winScreen;
     public GameObject settings;
     public GameObject controls;
     public GameObject musicTestObj;
@@ -46,6 +47,10 @@ public class UIManager : MonoBehaviour
         {
             pauseScreen.SetActive(false);
         }
+        if (winScreen != null)
+        {
+            winScreen.SetActive(false);
+        }
         creditsActive = false;
         Time.timeScale = 1f;
     }
@@ -73,11 +78,15 @@ public class UIManager : MonoBehaviour
     }
     public bool CanPause()
     {
-        if (pauseScreen != null)
+        if (pauseScreen == null)
         {
-            return true;
+            return false;
         }
-        return false;
+        if (winScreen.activeInHierarchy || deathScreen.activeInHierarchy)
+        {
+            return false;
+        }
+        return true;
     }
     public void TogglePause(bool b)
     {
@@ -158,6 +167,14 @@ public class UIManager : MonoBehaviour
         deathScreen.SetActive(true);
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+    }
+    public void WinScreen()
+    {
+        StartCoroutine(FadeIn());
+        winScreen.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+        SFXManager.instance.LoopMusic(false, false, true);
     }
     public void MainMenu()
     {

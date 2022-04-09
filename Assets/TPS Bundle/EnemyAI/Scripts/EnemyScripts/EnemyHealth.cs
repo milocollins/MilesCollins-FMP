@@ -60,6 +60,7 @@ namespace EnemyAI
 				damage *= 10;
 				// Call headshot HUD callback, if any.
 				GameObject.FindGameObjectWithTag("GameController").SendMessage("HeadShotCallback", SendMessageOptions.DontRequireReceiver);
+				GameObject.FindGameObjectWithTag("Player").GetComponent<MyHealth>().AddHealth();
 			}
 
 			// Create spouted blood particle on shot location.
@@ -107,6 +108,7 @@ namespace EnemyAI
 			Destroy(weapon.gameObject);
 			Destroy(hud.gameObject);
 			dead = true;
+			GameObject.Find("Revolver").GetComponent<InteractiveWeapon>().AddAmmo();
 		}
 
 		// Update health bar HUD to current NPC health.

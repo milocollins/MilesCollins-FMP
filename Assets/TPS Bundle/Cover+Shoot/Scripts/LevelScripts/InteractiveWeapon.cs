@@ -240,4 +240,10 @@ public class InteractiveWeapon : MonoBehaviour
 	{
 		weaponHud.UpdateWeaponHUD(sprite, mag, fullMag, totalBullets);
 	}
+
+	public void AddAmmo()
+    {
+		totalBullets += Random.Range(2, 4);
+		UpdateHud();
+    }
 }
