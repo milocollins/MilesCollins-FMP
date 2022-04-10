@@ -82,9 +82,19 @@ public class UIManager : MonoBehaviour
         {
             return false;
         }
-        if (winScreen.activeInHierarchy || deathScreen.activeInHierarchy)
+        if (winScreen != null)
         {
-            return false;
+            if (winScreen.activeInHierarchy)
+            {
+                return false;
+            }
+        }
+        if (deathScreen != null)
+        {
+            if (deathScreen.activeInHierarchy)
+            {
+                return false;
+            }
         }
         return true;
     }
