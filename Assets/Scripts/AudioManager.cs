@@ -26,6 +26,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip mainMenuMusic;
     public AudioClip gameplayMusic;
 
+    public List<float> volumes;
+
 
     private void Awake()
     {
@@ -33,7 +35,7 @@ public class AudioManager : MonoBehaviour
     }
     private void Start()
     {
-        SFXManager.instance.LoopMusic(false, false, false);
+        SFXManager.instance.MusicLoop(false, false);
     }
     public static void TransitionToSnapshot(AudioMixerSnapshot ams, float t)
     {
@@ -64,27 +66,5 @@ public class AudioManager : MonoBehaviour
             currentVolume += 80;
         }
         return currentVolume;
-    }
-    public void SetMusicLoop(GameObject GO)
-    {
-        if (musicLoop!=null)
-        {
-            Destroy(musicLoop);
-        }
-        musicLoop = GO;
-    }
-    public void SetPauseMusic(GameObject GO, bool b)
-    {
-        if (b)
-        {
-            musicLoop.GetComponent<AudioSource>().Pause();
-            Debug.Log(musicLoop.GetComponent<AudioSource>().isPlaying);
-            pauseMusic = GO;
-        }
-        else
-        {
-            Destroy(pauseMusic);
-            musicLoop.GetComponent<AudioSource>().Play();
-        }
     }
 }

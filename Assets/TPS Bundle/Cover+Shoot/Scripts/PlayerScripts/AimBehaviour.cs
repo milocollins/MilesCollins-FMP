@@ -163,7 +163,7 @@ public class AimBehaviour : GenericBehaviour
  	// Draw the crosshair when aiming.
 	void OnGUI () 
 	{
-		if (crosshair)
+		if (crosshair && Time.timeScale > 0f)
 		{
 			float mag = behaviourManager.GetCamScript.GetCurrentPivotMagnitude(aimPivotOffset);
 			if (mag < 0.05f)

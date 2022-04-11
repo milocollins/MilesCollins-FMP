@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         MouseToggle(isPaused);
+        Time.timeScale = 1f;
     }
 
     void Update()
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
         if (UIManager.instance.CanPause())
         {
             isPaused = !isPaused;
-            SFXManager.instance.LoopMusic(true, false, false);
+            SFXManager.instance.PauseMusicToggle();
             MouseToggle(isPaused);
             if (isPaused)
             {

@@ -41,6 +41,7 @@ public class SceneNavigator : MonoBehaviour
         await Task.Delay(1000);
         scene.allowSceneActivation = true;
         loadCanvas.SetActive(false);
+        Time.timeScale = 1f;
     }
     public string GetCurrentScene()
     {

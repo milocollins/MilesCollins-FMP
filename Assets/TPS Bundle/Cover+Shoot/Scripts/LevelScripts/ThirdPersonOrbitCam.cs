@@ -59,8 +59,10 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 			Debug.LogWarning("Vertical Cam Offset (Y) will be ignored during collisions!\n" +
 				"It is recommended to set all vertical offset in Pivot Offset.");
 	}
-
-	void Update()
+    private void Start()
+    {
+	}
+    void Update()
 	{
         if (!GameManager.instance.isPaused)
         {

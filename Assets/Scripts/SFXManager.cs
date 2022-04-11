@@ -132,53 +132,6 @@ public class SFXManager : MonoBehaviour
         }
         Destroy(GO);
     }
-    //public void LoopMusic(bool pause, bool dead, bool success)
-    //{
-    //    GameObject GO = Instantiate(sfxPrefab);
-    //    AudioSource AS = GO.transform.GetComponent<AudioSource>();
-    //    AS.loop = true;
-    //    AS.outputAudioMixerGroup = AudioManager.instance.Music;
-    //    string s = SceneNavigator.instance.GetCurrentScene();
-    //    if (!pause && !dead && !success)
-    //    {
-    //        AudioManager.instance.SetMusicLoop(GO);
-    //        switch (s)
-    //        {
-    //            case "MainMenu":
-    //                AS.clip = AudioManager.instance.musicList[0];
-    //                break;
-    //            case "Prototype":
-    //                AS.clip = AudioManager.instance.musicList[1];
-    //                break;
-    //            case "Level 2":
-    //                AS.clip = AudioManager.instance.musicList[1];
-    //                break;
-    //            case "Level 3":
-    //                AS.clip = AudioManager.instance.musicList[1];
-    //                break;
-    //            default:
-    //                break;
-    //        }
-    //    }
-    //    else if (pause)
-    //    {
-    //        AudioManager.instance.SetPauseMusic(GO, GameManager.instance.isPaused);
-    //        AS.clip = AudioManager.instance.musicList[2];
-    //    }
-    //    else if (dead)
-    //    {
-    //        AudioManager.instance.SetMusicLoop(GO);
-    //        AS.clip = AudioManager.instance.musicList[3];
-    //        AudioManager.instance.SetMusicLoop(GO);
-    //    }
-    //    else if (success)
-    //    {
-    //        AudioManager.instance.SetMusicLoop(GO);
-    //        AS.clip = AudioManager.instance.musicList[4];
-    //        AudioManager.instance.SetMusicLoop(GO);
-    //    }
-    //    AS.Play();
-    //}
     public void PauseMusicToggle()
     {
         if (AudioManager.instance.pauseMusicGO != null)
@@ -198,6 +151,7 @@ public class SFXManager : MonoBehaviour
             AS.playOnAwake = false;
             AS.loop = true;
             AS.clip = AudioManager.instance.pauseMusic;
+            AS.volume = AudioManager.instance.volumes[0];
             AS.Play();
         }
         else
@@ -225,10 +179,12 @@ public class SFXManager : MonoBehaviour
         if (gameOver)
         {
             AS.clip = AudioManager.instance.gameOverMusic;
+            AS.volume = AudioManager.instance.volumes[1];
         }
         else if (gameWin)
         {
             AS.clip = AudioManager.instance.gameWinMusic;
+            AS.volume = AudioManager.instance.volumes[2];
         }
         else
         {
@@ -236,21 +192,24 @@ public class SFXManager : MonoBehaviour
             {
                 case "MainMenu":
                     AS.clip = AudioManager.instance.mainMenuMusic;
+                    AS.volume = AudioManager.instance.volumes[3];
                     break;
                 case "Prototype":
                     AS.clip = AudioManager.instance.gameplayMusic;
+                    AS.volume = AudioManager.instance.volumes[4];
                     break;
                 case "Level 2":
                     AS.clip = AudioManager.instance.gameplayMusic;
+                    AS.volume = AudioManager.instance.volumes[4];
                     break;
                 case "Level 3":
                     AS.clip = AudioManager.instance.gameplayMusic;
+                    AS.volume = AudioManager.instance.volumes[4];
                     break;
                 default:
                     break;
             }
-            AS.Play();
         }
-
+        AS.Play();
     }
 }

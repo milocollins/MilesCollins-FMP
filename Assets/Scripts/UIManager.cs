@@ -52,7 +52,6 @@ public class UIManager : MonoBehaviour
             winScreen.SetActive(false);
         }
         creditsActive = false;
-        Time.timeScale = 1f;
     }
     private void Start()
     {
@@ -173,8 +172,10 @@ public class UIManager : MonoBehaviour
     }
     public void DeathScreen()
     {
-        StartCoroutine(FadeIn());
+        SFXManager.instance.MusicLoop(true, false);
         deathScreen.SetActive(true);
+        GameManager.instance.isPaused = true;
+        Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
     }
@@ -182,9 +183,11 @@ public class UIManager : MonoBehaviour
     {
         StartCoroutine(FadeIn());
         winScreen.SetActive(true);
+        GameManager.instance.isPaused = true;
+        Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
-        SFXManager.instance.LoopMusic(false, false, true);
+        SFXManager.instance.MusicLoop(false, true);
     }
     public void MainMenu()
     {
