@@ -18,9 +18,13 @@ public class AudioManager : MonoBehaviour
     public float masterVolume = 0f;
     private string[] amgVolumes = { "MasterVolume", "SFXVolume", "MusicVolume", "UIVolume" };
     
-    public AudioClip[] musicList;
-    public GameObject musicLoop;
-    public GameObject pauseMusic;
+    public GameObject musicLoopGO;
+    public GameObject pauseMusicGO;
+    public AudioClip pauseMusic;
+    public AudioClip gameOverMusic;
+    public AudioClip gameWinMusic;
+    public AudioClip mainMenuMusic;
+    public AudioClip gameplayMusic;
 
 
     private void Awake()

@@ -132,51 +132,125 @@ public class SFXManager : MonoBehaviour
         }
         Destroy(GO);
     }
-    public void LoopMusic(bool pause, bool dead, bool success)
+    //public void LoopMusic(bool pause, bool dead, bool success)
+    //{
+    //    GameObject GO = Instantiate(sfxPrefab);
+    //    AudioSource AS = GO.transform.GetComponent<AudioSource>();
+    //    AS.loop = true;
+    //    AS.outputAudioMixerGroup = AudioManager.instance.Music;
+    //    string s = SceneNavigator.instance.GetCurrentScene();
+    //    if (!pause && !dead && !success)
+    //    {
+    //        AudioManager.instance.SetMusicLoop(GO);
+    //        switch (s)
+    //        {
+    //            case "MainMenu":
+    //                AS.clip = AudioManager.instance.musicList[0];
+    //                break;
+    //            case "Prototype":
+    //                AS.clip = AudioManager.instance.musicList[1];
+    //                break;
+    //            case "Level 2":
+    //                AS.clip = AudioManager.instance.musicList[1];
+    //                break;
+    //            case "Level 3":
+    //                AS.clip = AudioManager.instance.musicList[1];
+    //                break;
+    //            default:
+    //                break;
+    //        }
+    //    }
+    //    else if (pause)
+    //    {
+    //        AudioManager.instance.SetPauseMusic(GO, GameManager.instance.isPaused);
+    //        AS.clip = AudioManager.instance.musicList[2];
+    //    }
+    //    else if (dead)
+    //    {
+    //        AudioManager.instance.SetMusicLoop(GO);
+    //        AS.clip = AudioManager.instance.musicList[3];
+    //        AudioManager.instance.SetMusicLoop(GO);
+    //    }
+    //    else if (success)
+    //    {
+    //        AudioManager.instance.SetMusicLoop(GO);
+    //        AS.clip = AudioManager.instance.musicList[4];
+    //        AudioManager.instance.SetMusicLoop(GO);
+    //    }
+    //    AS.Play();
+    //}
+    public void PauseMusicToggle()
     {
-        GameObject GO = Instantiate(sfxPrefab);
-        AudioSource AS = GO.transform.GetComponent<AudioSource>();
-        AS.loop = true;
-        AS.outputAudioMixerGroup = AudioManager.instance.Music;
-        string s = SceneNavigator.instance.GetCurrentScene();
-        if (!pause && !dead && !success)
+        if (AudioManager.instance.pauseMusicGO != null)
         {
-            AudioManager.instance.SetMusicLoop(GO);
-            switch (s)
+            if (AudioManager.instance.pauseMusicGO.activeInHierarchy)
+            {
+                Destroy(AudioManager.instance.pauseMusicGO);
+            }
+            AudioManager.instance.pauseMusicGO = null;
+        }
+        if (GameManager.instance.isPaused)
+        {
+            AudioManager.instance.musicLoopGO.GetComponent<AudioSource>().Pause();
+            GameObject GO = Instantiate(sfxPrefab);
+            AudioManager.instance.pauseMusicGO = GO;
+            AudioSource AS = GO.GetComponent<AudioSource>();
+            AS.playOnAwake = false;
+            AS.loop = true;
+            AS.clip = AudioManager.instance.pauseMusic;
+            AS.Play();
+        }
+        else
+        {
+            Destroy(AudioManager.instance.pauseMusicGO);
+            AudioManager.instance.pauseMusicGO = null;
+            AudioManager.instance.musicLoopGO.GetComponent<AudioSource>().Play();
+        }
+    }
+    public void MusicLoop(bool gameOver, bool gameWin)
+    {
+        if (AudioManager.instance.musicLoopGO != null)
+        {
+            if (AudioManager.instance.musicLoopGO.activeInHierarchy)
+            {
+                Destroy(AudioManager.instance.musicLoopGO);
+            }
+            AudioManager.instance.musicLoopGO = null;
+        }
+        GameObject GO = Instantiate(sfxPrefab);
+        AudioManager.instance.musicLoopGO = GO;
+        AudioSource AS = GO.GetComponent<AudioSource>();
+        AS.playOnAwake = false;
+        AS.loop = true;
+        if (gameOver)
+        {
+            AS.clip = AudioManager.instance.gameOverMusic;
+        }
+        else if (gameWin)
+        {
+            AS.clip = AudioManager.instance.gameWinMusic;
+        }
+        else
+        {
+            switch (SceneNavigator.instance.GetCurrentScene())
             {
                 case "MainMenu":
-                    AS.clip = AudioManager.instance.musicList[0];
+                    AS.clip = AudioManager.instance.mainMenuMusic;
                     break;
                 case "Prototype":
-                    AS.clip = AudioManager.instance.musicList[1];
+                    AS.clip = AudioManager.instance.gameplayMusic;
                     break;
                 case "Level 2":
-                    AS.clip = AudioManager.instance.musicList[1];
+                    AS.clip = AudioManager.instance.gameplayMusic;
                     break;
                 case "Level 3":
-                    AS.clip = AudioManager.instance.musicList[1];
+                    AS.clip = AudioManager.instance.gameplayMusic;
                     break;
                 default:
                     break;
             }
+            AS.Play();
         }
-        else if (pause)
-        {
-            AudioManager.instance.SetPauseMusic(GO, GameManager.instance.isPaused);
-            AS.clip = AudioManager.instance.musicList[2];
-        }
-        else if (dead)
-        {
-            AudioManager.instance.SetMusicLoop(GO);
-            AS.clip = AudioManager.instance.musicList[3];
-            AudioManager.instance.SetMusicLoop(GO);
-        }
-        else if (success)
-        {
-            AudioManager.instance.SetMusicLoop(GO);
-            AS.clip = AudioManager.instance.musicList[4];
-            AudioManager.instance.SetMusicLoop(GO);
-        }
-        AS.Play();
+
     }
 }
