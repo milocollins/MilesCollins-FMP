@@ -61,6 +61,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 	}
     private void Start()
     {
+
 	}
     void Update()
 	{

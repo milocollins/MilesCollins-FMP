@@ -42,6 +42,7 @@ public class SceneNavigator : MonoBehaviour
         scene.allowSceneActivation = true;
         loadCanvas.SetActive(false);
         Time.timeScale = 1f;
+        GameManager.instance.isPaused = false;
     }
     public string GetCurrentScene()
     {

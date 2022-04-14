@@ -55,7 +55,6 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        Debug.Log("HIT");
         if (fadeScreen != null)
         {
             StartCoroutine(FadeIn());
