@@ -6,6 +6,7 @@ using UnityEngine;
 public class Explosive : HealthManager
 {
     public GameObject explosionVFX;
+    public AudioClip explosionSFX;
     private void Awake()
     {
         gameObject.GetComponent<SphereCollider>().enabled = false;
@@ -19,6 +20,7 @@ public class Explosive : HealthManager
     public IEnumerator ExplosiveDamage()
     {
         gameObject.GetComponent<SphereCollider>().enabled = true;
+        SFXManager.instance.PlaySFX(explosionSFX, transform, new Vector2(6, 150));
         yield return new WaitForSeconds(0.1f);
         GameManager.DestroyObject(gameObject);
     }

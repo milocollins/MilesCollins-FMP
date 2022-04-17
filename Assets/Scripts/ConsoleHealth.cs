@@ -6,6 +6,7 @@ public class ConsoleHealth : HealthManager
 {
     public GameObject barrier;
     public GameObject consoleVFX;
+    public AudioClip consoleSFX;
     public override void TakeDamage(Vector3 location, Vector3 direction, float damage, Collider bodyPart = null, GameObject origin = null)
     {
         if (!dead)
@@ -15,6 +16,7 @@ public class ConsoleHealth : HealthManager
             {
                 StartCoroutine(CreateVFX(location));
                 Destroy(barrier);
+                SFXManager.instance.PlaySFX(consoleSFX, transform, new Vector2(20, 150), 1f);
             }
         }
     }

@@ -47,6 +47,7 @@ public class SFXManager : MonoBehaviour
         AS.spatialBlend = 1f;
         AS.minDistance = v.x;
         AS.maxDistance = v.y;
+        AS.dopplerLevel = 0;
         AS.Play();
         yield return new WaitForSeconds(ac.length);
         Destroy(GO);
@@ -150,6 +151,7 @@ public class SFXManager : MonoBehaviour
             AudioSource AS = GO.GetComponent<AudioSource>();
             AS.playOnAwake = false;
             AS.loop = true;
+            AS.outputAudioMixerGroup = AudioManager.instance.Music;
             AS.clip = AudioManager.instance.pauseMusic;
             AS.volume = AudioManager.instance.volumes[0];
             AS.Play();
@@ -176,6 +178,7 @@ public class SFXManager : MonoBehaviour
         AudioSource AS = GO.GetComponent<AudioSource>();
         AS.playOnAwake = false;
         AS.loop = true;
+        AS.outputAudioMixerGroup = AudioManager.instance.Music;
         if (gameOver)
         {
             AS.clip = AudioManager.instance.gameOverMusic;
@@ -211,5 +214,23 @@ public class SFXManager : MonoBehaviour
             }
         }
         AS.Play();
+    }
+    public void PlaySFX(AudioClip ac, Transform position, Vector2 minMax, float volume)
+    {
+        StartCoroutine(SFX(ac, position, minMax, volume));
+    }
+    private IEnumerator SFX(AudioClip ac, Transform t, Vector2 v, float volume)
+    {
+        GameObject GO = Instantiate(sfxPrefab, t.position, Quaternion.identity);
+        AudioSource AS = GO.transform.GetComponent<AudioSource>();
+        AS.clip = ac;
+        AS.spatialBlend = 1f;
+        AS.minDistance = v.x;
+        AS.maxDistance = v.y;
+        AS.dopplerLevel = 0;
+        AS.volume = volume;
+        AS.Play();
+        yield return new WaitForSeconds(ac.length);
+        Destroy(GO);
     }
 }
