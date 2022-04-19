@@ -12,15 +12,14 @@ public class AlertManagement : MonoBehaviour
 
 	private Vector3 current;       // The current alert position.
 	private bool alert;            // Is there a new alert to propagate?
-
-	void Start()
+    void Start()
 	{
 		// Ping the current alert (if any) periodically. Default period: 1 second.
 		InvokeRepeating("PingAlert", 1, 1);
 	}
 
 	// Alert nearby objects of an event.
-	private void AlertNearby(Vector3 origin, Vector3 target, int wave = 0)
+	internal void AlertNearby(Vector3 origin, Vector3 target, float radius = 20, int wave = 0)
 	{
 		// Will this object keep or forward the alert? 
 		// If TTL is higher than defined, do not forward alert.
@@ -28,7 +27,7 @@ public class AlertManagement : MonoBehaviour
 			return;
 
 		// Grab nearby objects to trigger alert.
-		Collider[] targetsInViewRadius = Physics.OverlapSphere(origin, alertRadius, alertMask);
+		Collider[] targetsInViewRadius = Physics.OverlapSphere(origin, radius, alertMask);
 
 		foreach (Collider obj in targetsInViewRadius)
 		{
@@ -36,7 +35,7 @@ public class AlertManagement : MonoBehaviour
 			obj.SendMessageUpwards("AlertCallback", target, SendMessageOptions.DontRequireReceiver);
 
 			// Forward alert to nearby objects
-			AlertNearby(obj.transform.position, target, wave + 1);
+			AlertNearby(obj.transform.position, target, radius, wave + 1);
 		}
 	}
 

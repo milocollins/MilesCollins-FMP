@@ -47,7 +47,7 @@ public class CoverBehaviour : GenericBehaviour
 		NONE,
 		TURN,
 		CHANGE,
-		JUMP
+		//JUMP
 	}
 	private CoverActions possibleAction;             // Possible cover special action to take.
 	private CoverActions currentAction;              // Cover special action being performed.
@@ -162,10 +162,10 @@ public class CoverBehaviour : GenericBehaviour
 			}
 
 			// Align jump over cover direction (jumo over is a transitional action to default behaviour).
-			if (currentAction == CoverActions.JUMP)
-			{
-				JumpOverMatchTarget();
-			}
+			//if (currentAction == CoverActions.JUMP)
+			//{
+			//	JumpOverMatchTarget();
+			//}
 		}
 
 		// Trigger anim states for covering.
@@ -227,12 +227,12 @@ public class CoverBehaviour : GenericBehaviour
 				currentAction = CoverActions.TURN;
 				break;
 			// Jump over cover situation.
-			case CoverActions.JUMP:
-				currentAction = CoverActions.JUMP;
-				behaviourManager.SetLastDirection(-coverWall.normal);
-				behaviourManager.GetAnim.SetBool(jumpCoverBool, true);
-				behaviourManager.LockTempBehaviour(this.behaviourCode);
-				break;
+			//case CoverActions.JUMP:
+			//	currentAction = CoverActions.JUMP;
+			//	behaviourManager.SetLastDirection(-coverWall.normal);
+			//	behaviourManager.GetAnim.SetBool(jumpCoverBool, true);
+			//	behaviourManager.LockTempBehaviour(this.behaviourCode);
+			//	break;
 			default:
 				currentAction = CoverActions.NONE;
 				break;
@@ -394,13 +394,14 @@ public class CoverBehaviour : GenericBehaviour
 			NavigateToCover ();
 		}
 		// Possible states to handle cover.
-		else if (currentAction != CoverActions.CHANGE && currentAction != CoverActions.JUMP && takeCover && !isAiming)
+		// before cover jump fix : currentAction != CoverActions.CHANGE && currentAction != CoverActions.JUMP && takeCover && !isAiming
+		else if (currentAction != CoverActions.CHANGE && takeCover && !isAiming)
 		{
 			CoverManagement ();
 		}
 
 		// Jump cover is a transitional action that exits cover behaviour.
-		JumpCoverManagement();
+		//JumpCoverManagement();
 
 		// Ensure player will exit cover when falling.
 		if (!behaviourManager.IsGrounded())
@@ -484,32 +485,32 @@ public class CoverBehaviour : GenericBehaviour
 	}
 
 	// Handle the jump over cover action.
-	private void JumpCoverManagement()
-	{
-		// Can only jump over cover if player is crouching, cover depth is within max range, not moving, pressing forward button, and is in FOV.
-		Vector3 castOrigin = transform.position - (maxJumpCoverDist + 0.1f + col.radius) * transform.forward + standingHeight * Vector3.up;
-		bool canJumpCover = !Physics.Raycast (castOrigin, Vector3.down, 2.0f, coverMask);
-		canJumpCover = canJumpCover && !Physics.Raycast(castOrigin, transform.forward, 1.5f);
-		canJumpCover = canJumpCover && (Mathf.Abs(behaviourManager.GetH) < 0.2f);
-		canJumpCover = canJumpCover && (behaviourManager.GetV > 0.5f) && isCrouching;
-		canJumpCover = canJumpCover && InPLayerFOV (GetCamTarget (), true);
-
-		// Draw jump cover cover sign and adjust cover end depth.
-		if (canJumpCover && currentAction == CoverActions.NONE)
-		{
-			possibleAction = CoverActions.JUMP;
-			Vector3 signPosition = transform.position + (Vector3.up * 1.5f);
-			DrawSign(jumpCoverSign, signPosition, -coverWall.normal, 30f);
-			jumpCoverEnd = transform.position - (AdjustCoverEnd(maxJumpCoverDist) + col.radius) * transform.forward + standingHeight * Vector3.up;
-			Debug.DrawRay(jumpCoverEnd, Vector3.down, canJumpCover ? Color.green : Color.red);
-		}
-		else
-		{
-			UndrawSign(jumpCoverSign);
-			if (possibleAction == CoverActions.JUMP && currentAction == CoverActions.NONE)
-				possibleAction = CoverActions.NONE;
-		}
-	}
+	//private void JumpCoverManagement()
+	//{
+	//	// Can only jump over cover if player is crouching, cover depth is within max range, not moving, pressing forward button, and is in FOV.
+	//	Vector3 castOrigin = transform.position - (maxJumpCoverDist + 0.1f + col.radius) * transform.forward + standingHeight * Vector3.up;
+	//	bool canJumpCover = !Physics.Raycast (castOrigin, Vector3.down, 2.0f, coverMask);
+	//	canJumpCover = canJumpCover && !Physics.Raycast(castOrigin, transform.forward, 1.5f);
+	//	canJumpCover = canJumpCover && (Mathf.Abs(behaviourManager.GetH) < 0.2f);
+	//	canJumpCover = canJumpCover && (behaviourManager.GetV > 0.5f) && isCrouching;
+	//	canJumpCover = canJumpCover && InPLayerFOV (GetCamTarget (), true);
+	//
+	//	// Draw jump cover cover sign and adjust cover end depth.
+	//	if (canJumpCover && currentAction == CoverActions.NONE)
+	//	{
+	//		possibleAction = CoverActions.JUMP;
+	//		Vector3 signPosition = transform.position + (Vector3.up * 1.5f);
+	//		DrawSign(jumpCoverSign, signPosition, -coverWall.normal, 30f);
+	//		jumpCoverEnd = transform.position - (AdjustCoverEnd(maxJumpCoverDist) + col.radius) * transform.forward + standingHeight * Vector3.up;
+	//		Debug.DrawRay(jumpCoverEnd, Vector3.down, canJumpCover ? Color.green : Color.red);
+	//	}
+	//	else
+	//	{
+	//		UndrawSign(jumpCoverSign);
+	//		if (possibleAction == CoverActions.JUMP && currentAction == CoverActions.NONE)
+	//			possibleAction = CoverActions.NONE;
+	//	}
+	//}
 
 	// Refine position of the cover end in realtime.
 	private float AdjustCoverEnd(float beginDist)
@@ -615,10 +616,10 @@ public class CoverBehaviour : GenericBehaviour
 		{
 			possibleAction = CoverActions.TURN;
 		}
-		else if(possibleAction != CoverActions.JUMP)
-		{
-			possibleAction = CoverActions.NONE;
-		}
+		//else if(possibleAction != CoverActions.JUMP)
+		//{
+		//	possibleAction = CoverActions.NONE;
+		//}
 
 		// Draw special action sign.
 		Vector3 signPosition = transform.position + (3f * shift) + (Vector3.up * 0.5f);

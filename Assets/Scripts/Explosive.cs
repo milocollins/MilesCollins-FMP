@@ -26,19 +26,14 @@ public class Explosive : HealthManager
     }
     private void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Boom");
         if (collision.transform.tag == "Player")
         {
-            Debug.Log("Hit the Player");
             collision.gameObject.GetComponent<MyHealth>().Kill();
         }
         if (collision.transform.root.tag == "Enemy")
         {
-            //DID NOT LIKE THIS
-            Debug.Log(collision.transform);
             if (!collision.transform.root.GetComponent<EnemyHealth>().dead)
             {
-                Debug.Log("Hit the Enemy");
                 collision.transform.root.GetComponent<EnemyHealth>().Kill();
             }
         }

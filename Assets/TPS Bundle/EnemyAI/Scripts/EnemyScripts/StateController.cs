@@ -36,7 +36,7 @@ namespace EnemyAI
 		[HideInInspector] public NavMeshAgent nav;                  // Reference to the NPC NavMesh agent.
 		[HideInInspector] public int waypointIndex;                 // Reference to current waypoint.
 		[HideInInspector] public int maximumBurst = 7;              // The maximum burst size on a round.
-		[HideInInspector] public float blindEngageTime = 30f;       // Time to keep targeting last seen position after target leaves sight.
+		public float blindEngageTime = 30f;       // Time to keep targeting last seen position after target leaves sight.
 		[HideInInspector] public bool targetInSight;                // Is target on sight?
 		[HideInInspector] public bool focusSight;                   // Will focus on sight position?
 		[HideInInspector] public bool reloading;                    // Is the NPC reloading?
@@ -44,7 +44,7 @@ namespace EnemyAI
 		[HideInInspector] public bool haveClearShot;                // The NPC has a clear sight of the target to shoot now?
 		[HideInInspector] public int coverHash = -1;                // Unique reference to the used cover, if any;
 		[HideInInspector] public EnemyAnimation enemyAnimation;     // Reference to the enemy animation script.
-		[HideInInspector] public EnemyVariables variables;          // Reference to extra variables, common to all NPC categories.
+		 public EnemyVariables variables;          // Reference to extra variables, common to all NPC categories.
 		[HideInInspector] public CoverLookup coverLookup;           // Reference to the Game Controller's cover lookup script.
 		[HideInInspector] public Vector3 personalTarget;            // The current personal target, if any.
 

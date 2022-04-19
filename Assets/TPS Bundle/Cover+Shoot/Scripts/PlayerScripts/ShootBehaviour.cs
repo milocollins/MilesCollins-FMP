@@ -18,6 +18,7 @@ public class ShootBehaviour : GenericBehaviour
 	public float shotErrorRate = 0.01f;                            // Shooting error margin. 0 is most acurate.
 	public float shotRateFactor = 1f;                              // Rate of fire parameter. Higher is faster rate.
 	public float armsRotation = 8f;                                // Rotation of arms to align with aim, according player heigh.
+	[Range(0, 50)] public float shotDestinationAlertRange;		   // Alert radius for shot destination.
 	public LayerMask shotMask = ~((1 << 2) | (1 << 9) |            // Layer mask to cast shots.
 								(1 << 10) | (1 << 11));
 	public LayerMask organicMask;                                  // Layer mask to define organic matter.
@@ -207,6 +208,9 @@ public class ShootBehaviour : GenericBehaviour
 						hit.collider.SendMessageUpwards("HitCallback", new HealthManager.DamageInfo(
 							hit.point, ray.direction, weapons[weapon].bulletDamage, hit.collider), SendMessageOptions.DontRequireReceiver);
 				}
+				//Alerts enemies nearby the shot
+				GameObject.FindGameObjectWithTag("GameController").GetComponent<AlertManagement>().AlertNearby(hit.point,ray.origin, shotDestinationAlertRange);
+				//GameObject.FindGameObjectWithTag("GameController").SendMessage("RootAlertNearby", hit.point, SendMessageOptions.DontRequireReceiver);
 			}
 			// No target was hit.
 			else
