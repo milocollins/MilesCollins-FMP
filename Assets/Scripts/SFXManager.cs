@@ -86,9 +86,9 @@ public class SFXManager : MonoBehaviour
         {
             StartCoroutine(OneShotTest(clickSFX, amg, clickSFX.length));
         }
-        else if (amg == AudioManager.instance.Music && musicTestObj == null)
+        else if (amg == AudioManager.instance.Music)
         {
-            StartCoroutine(OneShotTest(musicTest, amg, 1.5f));
+            StartCoroutine(OneShotTest(musicTest, amg, musicTest.length));
         }
         else if (amg == AudioManager.instance.UI)
         {
