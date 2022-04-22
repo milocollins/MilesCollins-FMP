@@ -73,8 +73,8 @@ public class BossHealth : HealthManager
 			if (!anim.IsInTransition(3) && anim.GetCurrentAnimatorStateInfo(3).IsName("No hit"))
 				anim.SetTrigger("Hit");
 			// Show Health bar HUD.
-			healthUI.SetVisible();
-			UpdateHealthBar();
+			//healthUI.SetVisible();
+			//UpdateHealthBar();
 			// Update FSM related references.
 			controller.variables.feelAlert = true;
 			controller.personalTarget = controller.aimTarget.position;
@@ -106,7 +106,7 @@ public class BossHealth : HealthManager
 		Destroy(weapon.gameObject);
 		Destroy(hud.gameObject);
 		dead = true;
-		UIManager.instance.WinScreen();
+		//UIManager.instance.WinScreen();
 	}
 
 	// Update health bar HUD to current NPC health.

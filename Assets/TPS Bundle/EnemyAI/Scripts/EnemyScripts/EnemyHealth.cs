@@ -75,8 +75,8 @@ namespace EnemyAI
 				if(!anim.IsInTransition(3) && anim.GetCurrentAnimatorStateInfo(3).IsName("No hit"))
 					anim.SetTrigger("Hit");
 				// Show Health bar HUD.
-				healthUI.SetVisible();
-				UpdateHealthBar();
+				//healthUI.SetVisible();
+				//UpdateHealthBar();
 				// Update FSM related references.
 				controller.variables.feelAlert = true;
 				controller.personalTarget = controller.aimTarget.position;

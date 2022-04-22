@@ -61,19 +61,19 @@ public class UIManager : MonoBehaviour
         }
         if (SceneNavigator.instance.GetCurrentScene() != "MainMenu")
         {
-            ToggleControls();
+            //ToggleControls();
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (creditsActive)
-            {
-                creditsScreen.SetActive(false);
-            }
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        if (creditsActive)
+    //        {
+    //            creditsScreen.SetActive(false);
+    //        }
+    //    }
+    //}
     public bool CanPause()
     {
         if (pauseScreen == null)
@@ -101,7 +101,7 @@ public class UIManager : MonoBehaviour
         pauseScreen.SetActive(b);
         if (b)
         {
-            //pauseScreen.transform.Find("Controls").GetComponent<Button>().Select();
+            pauseScreen.transform.Find("Controls").GetComponent<Button>().Select();
             ToggleControls();
             Transform t = pauseScreen.transform.Find("Settings Panel");
             t.Find("Master Volume").GetComponent<Slider>().value = AudioManager.instance.GetVolume("MasterVolume");
@@ -122,16 +122,16 @@ public class UIManager : MonoBehaviour
         UIClick();
         Application.Quit();
     }
-    public void ToggleCredits()
-    {
-        Debug.Log("Toggle");
-        UIClick();
-        if (creditsScreen != null)
-        {
-            creditsActive = !creditsActive;
-            creditsScreen.SetActive(creditsActive);
-        }
-    }
+    //public void ToggleCredits()
+    //{
+    //    Debug.Log("Toggle");
+    //    UIClick();
+    //    if (creditsScreen != null)
+    //    {
+    //        creditsActive = !creditsActive;
+    //        creditsScreen.SetActive(creditsActive);
+    //    }
+    //}
     public IEnumerator FadeOut(string sceneName)
     {
         fadeScreen.SetActive(true);
@@ -153,22 +153,22 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(clip.length);
         fadeScreen.SetActive(false);
     }
-    public void ToggleHealthBar(bool b)
-    {
-        healthBar.SetActive(b);
-    }
-    public void UpdateHealth(float health)
-    {
-        healthBar.GetComponent<Slider>().value = health;
-    }
-    public void ToggleStaminaBar(bool b)
-    {
-        staminaBar.SetActive(b);
-    }
-    public void UpdateStamina(float stamina)
-    {
-        staminaBar.GetComponent<Slider>().value = stamina;
-    }
+    //public void ToggleHealthBar(bool b)
+    //{
+    //    healthBar.SetActive(b);
+    //}
+    //public void UpdateHealth(float health)
+    //{
+    //    healthBar.GetComponent<Slider>().value = health;
+    //}
+    //public void ToggleStaminaBar(bool b)
+    //{
+    //    staminaBar.SetActive(b);
+    //}
+    //public void UpdateStamina(float stamina)
+    //{
+    //    staminaBar.GetComponent<Slider>().value = stamina;
+    //}
     public void DeathScreen()
     {
         SFXManager.instance.MusicLoop(true, false);

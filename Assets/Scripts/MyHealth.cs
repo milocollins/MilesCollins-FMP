@@ -23,11 +23,11 @@ public class MyHealth : HealthManager
             if (!cooldownActive)
             {
                 health += recoveryRate * Time.deltaTime;
-                UIManager.instance.UpdateHealth(health);
+                //UIManager.instance.UpdateHealth(health);
                 if (health >= maxHealth)
                 {
                     health = maxHealth;
-                    UIManager.instance.ToggleHealthBar(false);
+                    //UIManager.instance.ToggleHealthBar(false);
                 }
             }
             else
@@ -51,9 +51,9 @@ public class MyHealth : HealthManager
         {
             if (!UIManager.instance.healthBar.activeInHierarchy)
             {
-                UIManager.instance.ToggleHealthBar(true);
+                //UIManager.instance.ToggleHealthBar(true);
             }
-            UIManager.instance.UpdateHealth(health);
+            //UIManager.instance.UpdateHealth(health);
             cooldownActive = true;
             cooldownTimer = cooldownTime;
             Debug.Log(health);
@@ -70,7 +70,7 @@ public class MyHealth : HealthManager
         }
         else
         {
-            UIManager.instance.DeathScreen();
+            //UIManager.instance.DeathScreen();
         }
     }
     public void AddHealth()
@@ -80,13 +80,13 @@ public class MyHealth : HealthManager
             if (health + 10 >= maxHealth)
             {
                 health = maxHealth;
-                UIManager.instance.ToggleHealthBar(false);
+                //UIManager.instance.ToggleHealthBar(false);
             }
             else
             {
                 health += 10;
             }
-            UIManager.instance.UpdateHealth(health);
+            //UIManager.instance.UpdateHealth(health);
         }
     }
 }

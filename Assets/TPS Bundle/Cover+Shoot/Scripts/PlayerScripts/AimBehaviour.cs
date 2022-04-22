@@ -165,11 +165,11 @@ public class AimBehaviour : GenericBehaviour
 	{
 		if (crosshair && Time.timeScale > 0f)
 		{
-			float mag = behaviourManager.GetCamScript.GetCurrentPivotMagnitude(aimPivotOffset);
-			if (mag < 0.05f)
-				GUI.DrawTexture(new Rect(Screen.width / 2 - (crosshair.width * 0.5f),
-										 Screen.height / 2 - (crosshair.height * 0.5f),
-										 crosshair.width, crosshair.height), crosshair);
+			//float mag = behaviourManager.GetCamScript.GetCurrentPivotMagnitude(aimPivotOffset);
+			//if (mag < 0.05f)
+				//GUI.DrawTexture(new Rect(Screen.width / 2 - (crosshair.width * 0.5f),
+					//					 Screen.height / 2 - (crosshair.height * 0.5f),
+						//				 crosshair.width, crosshair.height), crosshair);
 		}
 	}
 }

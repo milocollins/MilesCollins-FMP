@@ -27,7 +27,10 @@ public class WeaponUIManager : MonoBehaviour
 	// Manage on-screen HUD visibility.
 	public void Toggle(bool active)
 	{
-		weaponHud.transform.parent.gameObject.SetActive(active);
+        if (!active)
+        {
+			weaponHud.transform.parent.gameObject.SetActive(active);
+        }
 	}
 
 	// Update the weapon HUD features.

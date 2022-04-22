@@ -13,10 +13,10 @@ public class CoverBehaviour : GenericBehaviour
 	public float castOriginHeight = 0.3f;            // Height of the cast origin for special movements.
 	public Color pathColor =
 		new Color(0f, 1f, 1f, 0.3f);                 // Default line color for the path to cover.
-	public GameObject coverSign;                     // Take cover sign canvas.
-	public GameObject turnCoverSign;                 // Turn on cover corner sign canvas.
-	public GameObject changeCoverSign;               // Change cover sign canvas.
-	public GameObject jumpCoverSign;                 // Jump over cover sign canvas.
+	//public GameObject coverSign;                     // Take cover sign canvas.
+	//public GameObject turnCoverSign;                 // Turn on cover corner sign canvas.
+	//public GameObject changeCoverSign;               // Change cover sign canvas.
+	//public GameObject jumpCoverSign;                 // Jump over cover sign canvas.
 	public LayerMask coverMask = 1 << 8 | 1 << 10;   // Layer mask to take cover (Cover & Cover Invisible).
 
 	private bool takeCover;                          // Boolean to determine whether or not the player has to take cover.
@@ -94,7 +94,7 @@ public class CoverBehaviour : GenericBehaviour
 		{
 			showPathTimer = 0;
 			UndrawPath();
-			UndrawSign(coverSign);
+			//UndrawSign(coverSign);
 		}
 
 		// Cover actions, entering/exiting or changing covers.
@@ -109,6 +109,7 @@ public class CoverBehaviour : GenericBehaviour
 			}
 
 			// Handle enter/exit/covering special actions when cover button is pressed.
+			if (Input.GetButtonUp (coverButton))
 			if (Input.GetButtonUp (coverButton))
 			{
 				HandleCoverActions();
@@ -127,7 +128,7 @@ public class CoverBehaviour : GenericBehaviour
 				{
 					behaviourManager.RegisterBehaviour(this.behaviourCode);
 					
-					// Setup navigation to cover.
+					// Setup navigation to cover..
 					if (!isCovering)
 					{
 						// No overriding while navigating to cover.
@@ -197,7 +198,7 @@ public class CoverBehaviour : GenericBehaviour
 
 				// Put the take cover sign at the possible cover.
 				Vector3 signPosition = projectedCoverWall.point + (projectedCoverWall.normal * 0.01f) + (Vector3.up * 0.4f);
-				DrawSign(coverSign, signPosition, -projectedCoverWall.normal);
+				//DrawSign(coverSign, signPosition, -projectedCoverWall.normal);
 			}
 		}
 		// Player already in front of cover?
@@ -218,7 +219,7 @@ public class CoverBehaviour : GenericBehaviour
 			// Change covers situation.
 			case CoverActions.CHANGE:
 				currentAction = CoverActions.CHANGE;
-				UndrawSign(changeCoverSign);
+				//UndrawSign(changeCoverSign);
 				behaviourManager.GetAnim.SetBool(changeCoverBool, true);
 				behaviourManager.LockTempBehaviour(this.behaviourCode);
 				break;
@@ -257,10 +258,10 @@ public class CoverBehaviour : GenericBehaviour
 	public override void OnOverride()
 	{
 		UndrawPath();
-		UndrawSign(coverSign);
-		UndrawSign(turnCoverSign);
-		UndrawSign(changeCoverSign);
-		UndrawSign(jumpCoverSign);
+		//UndrawSign(coverSign);
+		//UndrawSign(turnCoverSign);
+		//UndrawSign(changeCoverSign);
+		//UndrawSign(jumpCoverSign);
 		SetCrouchStatus(false);
 	}
 
@@ -626,16 +627,16 @@ public class CoverBehaviour : GenericBehaviour
 		switch(possibleAction)
 		{
 			case CoverActions.CHANGE:
-				DrawSign(changeCoverSign, signPosition, -coverWall.normal, 90f, direction, true);
-				UndrawSign(turnCoverSign);
+				//DrawSign(changeCoverSign, signPosition, -coverWall.normal, 90f, direction, true);
+				//UndrawSign(turnCoverSign);
 				break;
 			case CoverActions.TURN:
-				DrawSign(turnCoverSign, signPosition, -coverWall.normal, 90f, direction, true);
-				UndrawSign(changeCoverSign);
+				//DrawSign(turnCoverSign, signPosition, -coverWall.normal, 90f, direction, true);
+				//UndrawSign(changeCoverSign);
 				break;
 			default:
-				UndrawSign(changeCoverSign);
-				UndrawSign(turnCoverSign);
+				//UndrawSign(changeCoverSign);
+				//UndrawSign(turnCoverSign);
 				break;
 		}
 

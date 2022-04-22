@@ -90,14 +90,14 @@ public class BasicBehaviour : MonoBehaviour
 		{
             if (!UIManager.instance.staminaBar.activeInHierarchy)
             {
-				UIManager.instance.ToggleStaminaBar(true);
+				//UIManager.instance.ToggleStaminaBar(true);
             }
 			changedFOV = true;
 			camScript.SetFOV(sprintFOV);
 
 			//Stamina
 			stamina -= staminaDepletion * Time.deltaTime;
-			UIManager.instance.UpdateStamina(stamina);
+			//UIManager.instance.UpdateStamina(stamina);
 		}
 		else if(changedFOV)
 		{
@@ -107,11 +107,11 @@ public class BasicBehaviour : MonoBehaviour
         if (!IsSprinting() && stamina < maxStamina)
         {
 			stamina += staminaRecovery * Time.deltaTime;
-			UIManager.instance.UpdateStamina(stamina);
+			//UIManager.instance.UpdateStamina(stamina);
             if (stamina > maxStamina)
             {
 				stamina = maxStamina;
-				UIManager.instance.ToggleStaminaBar(false);
+				//UIManager.instance.ToggleStaminaBar(false);
 			}
             else if (stamina > cooldownThreshold)
             {
